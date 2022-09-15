@@ -1,0 +1,25 @@
+//
+//  oauthToken.swift
+//  Challenge-Job-Readiness
+//
+//  Created by Alejandro Bruno Vola on 13/09/2022.
+//
+
+import Foundation
+
+struct oauthToken: Codable {
+    let accessToken, tokenType: String
+    let expiresIn: Int
+    let scope: String
+    let userID: Int
+    let refreshToken: String
+
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case tokenType = "token_type"
+        case expiresIn = "expires_in"
+        case scope
+        case userID = "user_id"
+        case refreshToken = "refresh_token"
+    }
+}

@@ -9,6 +9,8 @@ import UIKit
 
 class SearchViewController: UIViewController {
 
+    private var _search = SearchService.shared
+    
     private lazy var scrollView: UIScrollView = {
             let aScrollView = UIScrollView()
             aScrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,6 +52,8 @@ class SearchViewController: UIViewController {
          
          self.view.backgroundColor = UIColor(red: 218/255, green: 244/255, blue: 254/255, alpha: 1.00)
 
+         _search.fetchProducts(search: "motorola")
+             
      }
     
     private func setupConstraints(){
