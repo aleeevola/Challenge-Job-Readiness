@@ -8,44 +8,95 @@
 import Foundation
 import Alamofire
 
-final class SearchService {
+protocol ProductService{
+    func fetchProducts(search : String, callback: @escaping (Multiget)->Void) -> Void
+}
+
+final class SearchService : ProductService{
 
     static let shared = SearchService()
     
     private init(){}
     
+    private let defaults = UserDefaults.standard
     private var _restClient = RestClient.shared
     
-    func fetchProducts(search : String){
-        self.fetchCategory(search: search) { result in
-            switch result {
-            case .success(let activity):
-                let category = activity.first?.categoryID
-                guard !category!.isEmpty else {
-                    return
+    func fetchProducts(search : String, callback: @escaping (Multiget)->Void) -> Void{
+        
+        self.fetchCategory(search: search) { caregoryCode in
+            if caregoryCode.isEmpty {
+                callback([])
+                return
+            }
+            self.fetchTopProduct(search: caregoryCode) { productsIds in
+                print(productsIds)
+                if productsIds.isEmpty {
+                    callback([])
                 }
-                self.fetchTopProduct(search: category!) { result2 in
-                    switch result2 {
-                    case.success(let categorys) :
-                        print(categorys.content.first)
-                    case .failure(let error2) :
-                        print(error2)
+                else{
+                    self.fetchProductsDetail(search: productsIds) { multiget in
+                        callback(multiget)
                     }
                 }
-                break
-            case .failure(let error):
-                print(error.localizedDescription)
             }
         }
     }
     
-    private func fetchCategory(search : String, callback : @escaping (Result<DomainDiscovery, Error>) -> Void) -> Void{
-        let parameters : [String:Any] = ["limit":1,"q":search]
-        
-        self._restClient.call(.get, "sites/MLA/domain_discovery/search", parameters, callback: callback)
+    func likeProduct(_ productId:String){
+        if var likes = defaults.stringArray(forKey: "LikedProducts"){
+//            print(likes)
+            if let index = likes.firstIndex(of: productId) {
+                likes.remove(at: index)
+            }
+            else{
+                likes.append(productId)
+            }
+            defaults.set(likes, forKey: "LikedProducts")
+        } else {
+            defaults.set([productId], forKey: "LikedProducts")
+        }
     }
     
-    private func fetchTopProduct(search : String, callback : @escaping (Result<Category, Error>) -> Void) -> Void{
-        self._restClient.call(.get, "highlights/MLA/category/\(search)", callback: callback)
+    private func fetchCategory(search : String, callback : @escaping (String) -> Void) -> Void{
+        let parameters : [String:Any] = ["limit":1,"q":search]
+        
+        self._restClient.call(.get, "sites/MLA/domain_discovery/search", parameters) { (result : Result<DomainDiscovery, Error>) in
+            switch result {
+            case .success(let activity) :
+                callback(activity.first?.categoryID ?? "")
+                break
+            case .failure(let error) :
+                print("fetchCategory",error.localizedDescription)
+                break
+            }
+        }
+    }
+    
+    private func fetchTopProduct(search : String, callback : @escaping ([String]) -> Void) -> Void{
+        self._restClient.call(.get, "highlights/MLA/category/\(search)") { ( result : Result<Category, Error> ) in
+            switch result {
+            case .success(let productsIds) :
+                callback(productsIds.content.filter{ $0.type == .item }.map{$0.id})
+                break
+            case .failure(let error) :
+                print("fetchTopProduct",error.localizedDescription)
+                break
+            }
+        }
+    }
+    
+    private func fetchProductsDetail(search : [String], callback : @escaping (Multiget) -> Void) -> Void{
+        let parameters : [String:Any] = ["ids":search.joined(separator: ",")]
+        
+        self._restClient.call(.get, "items",parameters) { ( result : Result<Multiget, Error> ) in
+            switch result {
+            case .success(let productsDetails) :
+                callback(productsDetails)
+                break
+            case .failure(let error) :
+                print("fetchProductsDetail",error.localizedDescription)
+                break
+            }
+        }
     }
 }

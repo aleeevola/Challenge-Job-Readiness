@@ -19,8 +19,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowsScene)
         let mainViewController = SearchViewController()
-        let navController = UINavigationController(rootViewController: mainViewController)
-        window?.rootViewController = navController
+//        let navController = UINavigationController(rootViewController: mainViewController)
+//        window?.rootViewController = navController
+//        window?.makeKeyAndVisible()
+        
+        let navigation = UINavigationController(rootViewController: mainViewController)
+        
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.backgroundColor = UIColor.andes_brand
+        
+        let appearance = UINavigationBar.appearance()
+        appearance.standardAppearance = navBarAppearance
+        appearance.compactAppearance = navBarAppearance
+        appearance.scrollEdgeAppearance = navBarAppearance
+        appearance.barTintColor = .white
+        
+        if #available(iOS 15.0, *) {
+          appearance.compactScrollEdgeAppearance = navBarAppearance
+        } else {
+          // Fallback on earlier versions
+        }
+        
+        window?.rootViewController = navigation
         window?.makeKeyAndVisible()
     }
 
