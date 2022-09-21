@@ -40,7 +40,7 @@ extension MultigetElement {
         price: Double(body.price),
         extraDetails: "Nuevo",
         location: "CABA",
-        imageUrl: body.thumbnail,
+        imageUrl: body.secureThumbnail,
         isLiked: false)
     }
 }

@@ -13,16 +13,28 @@ struct MultigetElement: Codable {
 
 // MARK: - Body
 struct Body: Codable {
-    
-    let id, title : String
-    let price: Int
-    let thumbnail: String
+    let id: String
+    let title: String
+    let price: Double
+
+    let secureThumbnail: String
+    let pictures: [Picture]
 
     enum CodingKeys: String, CodingKey {
         case id
         case title
         case price
-        case thumbnail
+        case secureThumbnail = "secure_thumbnail"
+        case pictures
+    }
+}
+
+// MARK: - Picture
+struct Picture: Codable {
+    let secureURL: String
+    
+    enum CodingKeys: String, CodingKey {
+        case secureURL = "secure_url"
     }
 }
 

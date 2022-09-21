@@ -91,7 +91,7 @@ class ProductTableViewCell: UITableViewCell {
         button.layer.cornerRadius = 14.5
         
         let sizeConfig = UIImage.SymbolConfiguration(pointSize: 12.61, weight: .bold, scale: .large)
-        button.setImage(UIImage(named: "LikeButton")?.withConfiguration(sizeConfig), for: .normal)
+        button.setImage(UIImage(named: "like-icon")?.withConfiguration(sizeConfig), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

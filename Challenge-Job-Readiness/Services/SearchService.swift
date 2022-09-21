@@ -10,16 +10,23 @@ import Alamofire
 
 protocol ProductService{
     func fetchProducts(search : String, callback: @escaping (Multiget)->Void) -> Void
+    func fetchProduct(productId : String, callback: @escaping (Multiget)->Void) -> Void
+    func fetchDescription(productId : String, callback: @escaping (String)->Void) -> Void
 }
 
 final class SearchService : ProductService{
-
     static let shared = SearchService()
     
     private init(){}
     
     private let defaults = UserDefaults.standard
     private var _restClient = RestClient.shared
+    
+    func fetchProduct(productId: String, callback: @escaping (Multiget) -> Void) {
+        self.fetchProductsDetail(search: [productId]) { multiget in
+            callback(multiget)
+        }
+    }
     
     func fetchProducts(search : String, callback: @escaping (Multiget)->Void) -> Void{
         
@@ -42,6 +49,12 @@ final class SearchService : ProductService{
         }
     }
     
+//    func fetchDescription(productId : String, callback: @escaping (String)->Void) -> Void{
+//        self.fetchDescription(productId: productId, callback: { description in
+//            callback(description)
+//        })
+//    }
+    
     func likeProduct(_ productId:String){
         if var likes = defaults.stringArray(forKey: "LikedProducts"){
 //            print(likes)
@@ -57,6 +70,7 @@ final class SearchService : ProductService{
         }
     }
     
+    // MARK: - Private Methods
     private func fetchCategory(search : String, callback : @escaping (String) -> Void) -> Void{
         let parameters : [String:Any] = ["limit":1,"q":search]
         
@@ -95,6 +109,20 @@ final class SearchService : ProductService{
                 break
             case .failure(let error) :
                 print("fetchProductsDetail",error.localizedDescription)
+                break
+            }
+        }
+    }
+    
+    func fetchDescription(productId : String, callback : @escaping (String) -> Void) -> Void{
+        
+        self._restClient.call(.get, "items/\(productId)/description") { ( result : Result<DescriptionDto, Error> ) in
+            switch result {
+            case .success(let description) :
+                callback(description.plainText)
+                break
+            case .failure(let error) :
+                print("fetchDescription",error.localizedDescription)
                 break
             }
         }

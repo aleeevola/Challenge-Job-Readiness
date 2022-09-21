@@ -18,7 +18,11 @@ class SearchViewController: UIViewController {
     
     private var viewModel: SearchViewModel?
     
-    private var items : [Product] = []
+    private var items : [Product] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     // MARK: - Components
     lazy var totalResultLabel: UILabel = {
@@ -54,6 +58,12 @@ class SearchViewController: UIViewController {
         setupViewModel()
         setupView()
         setupConstraints()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     
@@ -74,8 +84,8 @@ class SearchViewController: UIViewController {
         view.addSubview(tableView)
         
         navigationItem.titleView = searchBar
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Cart"), style: .done, target: self, action: #selector(onCartBeenPressed))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"),  style: .done, target: self, action: #selector(onCartBeenPressed))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "cart-icon"), style: .done, target: self, action: #selector(onCartBeenPressed))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu-icon"),  style: .done, target: self, action: #selector(onCartBeenPressed))
         navigationItem.rightBarButtonItem?.tintColor = .black
         navigationItem.leftBarButtonItem?.tintColor = .black
 
@@ -105,7 +115,6 @@ extension SearchViewController : SearchViewDelegate {
     
     func setProducts(_ products: [Product]) {
         self.items = products
-        self.tableView.reloadData()
     }
     
     func showError(_ errorMessage : String){
@@ -134,7 +143,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate  {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = items[indexPath.row]
-        print("CELL: \(model)")
+        let controller = ProductDetailViewController(productId: model.id)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
 
