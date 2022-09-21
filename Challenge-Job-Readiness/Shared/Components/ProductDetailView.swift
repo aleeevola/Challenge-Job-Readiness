@@ -126,11 +126,11 @@ class ProductDetailView : UIView {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 34),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 30),
             nameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            imageContainer.topAnchor.constraint(equalTo: nameLabel.topAnchor,constant: 46),
+            imageContainer.topAnchor.constraint(equalTo: nameLabel.bottomAnchor,constant: 30),
             imageContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor),

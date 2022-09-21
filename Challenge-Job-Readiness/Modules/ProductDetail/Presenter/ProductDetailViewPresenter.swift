@@ -7,16 +7,22 @@
 
 import Foundation
 
-class ProductDetailViewModel {
+protocol ProductDetailPresenter {
+    func searchProduct(productId: String) -> Void
+    func likedTapped(_ productId : String)
+}
+
+class ProductDetailViewPresenter : ProductDetailPresenter{
+    // MARK: - Attributes
+    private let service: ProductService
+    weak var delegate: ProductDetailViewDelegate?
     
-    private let service: SearchService
-    private weak var delegate: ProductDetailViewDelegate?
-    
-    init(service: SearchService, delegate: ProductDetailViewDelegate?) {
+    // MARK: - Init
+    init(service: ProductService) {
         self.service = service
-        self.delegate = delegate
     }
     
+    // MARK: - Methods
     func searchProduct(productId: String) -> Void {
         self.service.fetchProduct(productId: productId) { result in
             if result.isEmpty {

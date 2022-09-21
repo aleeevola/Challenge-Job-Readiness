@@ -16,7 +16,7 @@ protocol SearchViewDelegate: AnyObject {
 
 class SearchViewController: UIViewController {
     
-    private var viewModel: SearchViewModel?
+    private let presenter: SearchPesenter
     
     private var items : [Product] = [] {
         didSet {
@@ -46,19 +46,25 @@ class SearchViewController: UIViewController {
         let searchBar = UISearchBar()
         searchBar.delegate = self
         searchBar.placeholder = "Buscar en Mercado Libre"
-//        searchBar.tintColor = .andes_brand
-//        searchBar.backgroundColor = .andes_brand
         return searchBar
     }()
     
+    // MARK: - Init Controller
+    
+    init(presenter : SearchPesenter){
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupViewModel()
         setupView()
         setupConstraints()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,10 +74,6 @@ class SearchViewController: UIViewController {
     
     
     // MARK: - Private Methods
-    
-    private func setupViewModel(){
-        self.viewModel = SearchViewModel(service: SearchService.shared, delegate: self)
-    }
     
     private func setupView(){
         view.backgroundColor = .white
@@ -143,7 +145,12 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate  {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = items[indexPath.row]
-        let controller = ProductDetailViewController(productId: model.id)
+        
+        let service = SearchService.shared
+        let presenter = ProductDetailViewPresenter(service: service)
+        let controller = ProductDetailViewController(productId: model.id, presenter: presenter)
+        presenter.delegate = controller
+        
         navigationController?.pushViewController(controller, animated: true)
     }
 }
@@ -153,7 +160,7 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if searchBar.text!.isEmpty == false {
-            self.viewModel?.searchProducts(searchBar.text!)
+            self.presenter.searchProducts(searchBar.text!)
         }
     }
 }

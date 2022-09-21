@@ -12,6 +12,7 @@ protocol ProductService{
     func fetchProducts(search : String, callback: @escaping (Multiget)->Void) -> Void
     func fetchProduct(productId : String, callback: @escaping (Multiget)->Void) -> Void
     func fetchDescription(productId : String, callback: @escaping (String)->Void) -> Void
+    func likeProduct(_ productId:String)
 }
 
 final class SearchService : ProductService{
@@ -49,15 +50,22 @@ final class SearchService : ProductService{
         }
     }
     
-//    func fetchDescription(productId : String, callback: @escaping (String)->Void) -> Void{
-//        self.fetchDescription(productId: productId, callback: { description in
-//            callback(description)
-//        })
-//    }
+    func fetchDescription(productId : String, callback : @escaping (String) -> Void) -> Void{
+        
+        self._restClient.call(.get, "items/\(productId)/description") { ( result : Result<DescriptionDto, Error> ) in
+            switch result {
+            case .success(let description) :
+                callback(description.plainText)
+                break
+            case .failure(let error) :
+                print("fetchDescription",error.localizedDescription)
+                break
+            }
+        }
+    }
     
     func likeProduct(_ productId:String){
         if var likes = defaults.stringArray(forKey: "LikedProducts"){
-//            print(likes)
             if let index = likes.firstIndex(of: productId) {
                 likes.remove(at: index)
             }
@@ -65,6 +73,7 @@ final class SearchService : ProductService{
                 likes.append(productId)
             }
             defaults.set(likes, forKey: "LikedProducts")
+            print("Likes",likes)
         } else {
             defaults.set([productId], forKey: "LikedProducts")
         }
@@ -109,20 +118,6 @@ final class SearchService : ProductService{
                 break
             case .failure(let error) :
                 print("fetchProductsDetail",error.localizedDescription)
-                break
-            }
-        }
-    }
-    
-    func fetchDescription(productId : String, callback : @escaping (String) -> Void) -> Void{
-        
-        self._restClient.call(.get, "items/\(productId)/description") { ( result : Result<DescriptionDto, Error> ) in
-            switch result {
-            case .success(let description) :
-                callback(description.plainText)
-                break
-            case .failure(let error) :
-                print("fetchDescription",error.localizedDescription)
                 break
             }
         }

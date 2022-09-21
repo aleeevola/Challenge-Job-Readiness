@@ -13,8 +13,9 @@ protocol ProductDetailViewDelegate : AnyObject {
 
 class ProductDetailViewController: UIViewController {
     
-    private var productId : String?
-    private var viewModel: ProductDetailViewModel?
+    private var productId : String
+    private var presenter: ProductDetailPresenter?
+    
     private var product : Product_detail? {
         didSet{
             productDetail.product = product
@@ -25,6 +26,7 @@ class ProductDetailViewController: UIViewController {
         let view = CustomNavigationBar()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backButton.addTarget(self, action: #selector(onBackBeenPress), for: .touchDown)
+        view.likeButton.addTarget(self, action: #selector(onLikeBeenPress), for: .touchDown)
         return view
     }()
     
@@ -34,7 +36,9 @@ class ProductDetailViewController: UIViewController {
         return view
     }()
     
-    init(productId : String) {
+    // MARK: - Init Controller
+    init(productId : String, presenter: ProductDetailPresenter) {
+        self.presenter = presenter
         self.productId = productId
         super.init(nibName: nil, bundle: nil)
     }
@@ -47,15 +51,10 @@ class ProductDetailViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         
-        setupViewModel()
         setupView()
         setupConstraints()
         
-        self.viewModel?.searchProduct(productId: self.productId!)
-    }
-    
-    @objc private func onBackBeenPress() {
-        navigationController?.popViewController(animated: true)
+        self.presenter?.searchProduct(productId: self.productId)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,8 +62,13 @@ class ProductDetailViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
-    private func setupViewModel(){
-        self.viewModel = ProductDetailViewModel(service: SearchService.shared, delegate: self)
+    // MARK: - Private Methods
+    @objc private func onBackBeenPress() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func onLikeBeenPress() {
+        presenter?.likedTapped(productId)
     }
     
     private func setupView() {

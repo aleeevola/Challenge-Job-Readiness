@@ -11,8 +11,11 @@ struct Product: Codable {
     let id: String
     let name: String
     let price: Double
-    let extraDetails: String
     let location: String
     let imageUrl: String
-    let isLiked: Bool
+    var isLiked: Bool
+    
+    mutating func setIsLiked(_ liked : Bool) {
+        self.isLiked = liked
+    }
 }

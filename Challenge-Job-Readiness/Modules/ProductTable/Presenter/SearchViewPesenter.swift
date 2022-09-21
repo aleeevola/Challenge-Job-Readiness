@@ -1,22 +1,32 @@
 //
-//  SearchViewModel.swift
+//  SearchViewPesenter.swift
 //  Challenge-Job-Readiness
 //
-//  Created by Alejandro Bruno Vola on 20/09/2022.
+//  Created by Alejandro Bruno Vola on 21/09/2022.
 //
 
 import Foundation
 
-class SearchViewModel {
-    
-    private let service: SearchService
-    private weak var delegate: SearchViewDelegate?
-    
-    init(service: SearchService, delegate: SearchViewDelegate?) {
-        self.service = service
-        self.delegate = delegate
-    }
-    
+protocol SearchPesenter {
+    func searchProducts(_ search: String) -> Void
+    func likedTapped(_ productId : String)
+}
+
+class SearchViewPesenter: SearchPesenter {
+  
+  // MARK: - Attributes
+  
+  weak var delegate: SearchViewDelegate?
+  private let service: ProductService
+  
+  // MARK: - Init
+  
+  init(service: ProductService) {
+    self.service = service
+  }
+  
+  // MARK: - Internal Functions
+  
     func searchProducts(_ search: String) -> Void {
         self.service.fetchProducts(search: search) { result in
             if result.isEmpty {
@@ -38,7 +48,6 @@ extension MultigetElement {
         id: body.id,
         name: body.title,
         price: Double(body.price),
-        extraDetails: "Nuevo",
         location: "CABA",
         imageUrl: body.secureThumbnail,
         isLiked: false)

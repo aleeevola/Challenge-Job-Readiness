@@ -18,4 +18,8 @@ struct Product_detail: Codable {
     mutating func setDescription(_ description : String) {
         self.details = description
     }
+    
+    mutating func setIsLiked(_ liked : Bool) {
+        self.isLiked = liked
+    }
 }

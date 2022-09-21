@@ -7,18 +7,12 @@
 import Alamofire
 import Foundation
 
-
-
 final class RestClient{
     static let shared = RestClient()
     
     private init(){}
     
     let BASE_URL = "https://api.mercadolibre.com/"
-//    private let CODE = "TG-631f43e26230f700017c8299-204640350"
-//    private let CLIENT_ID = "2823795960356823"
-//    private let CLIENT_SECRET = "2823795960356823"
-//    private let REDIRECT_URI = "https://www.alkemy.org/"
     private let ACCESS_TOKEN = "APP_USR-2823795960356823-092113-45a78341f37ec879b2acfcf23084fa7d-204640350"
     
     

@@ -80,8 +80,6 @@ class ProductTableViewCell: UITableViewCell {
         aImageView.backgroundColor = .gray
         aImageView.clipsToBounds = true
         aImageView.translatesAutoresizingMaskIntoConstraints = false
-        //let image = UIImage(named: "logo")
-        //aImageView.image = image
         return aImageView
     }()
     
@@ -164,7 +162,6 @@ class ProductTableViewCell: UITableViewCell {
     func configure(model: Product) {
         id = model.id
         titleLabel.text = model.name
-        detailLabel.text = model.extraDetails
         priceLabel.text = String(model.price).currencyFormatting()
         locationLabel.text = model.location
         productImageView.load(url: URL(string: model.imageUrl)!)

@@ -22,7 +22,7 @@ class CustomNavigationBar : UIView {
         return button
     }()
     
-    private lazy var likeButton: UIButton = {
+    lazy var likeButton: UIButton = {
         let button = UIButton()
         
         let sizeConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .bold, scale: .large)
