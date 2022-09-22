@@ -12,6 +12,7 @@ protocol ProductService{
     func fetchProducts(search : String, callback: @escaping (Multiget)->Void) -> Void
     func fetchProduct(productId : String, callback: @escaping (Multiget)->Void) -> Void
     func fetchDescription(productId : String, callback: @escaping (String)->Void) -> Void
+    func fetchLiked(callback : @escaping (Multiget)->Void) -> Void
     func likeProduct(_ productId:String)
 }
 
@@ -65,6 +66,22 @@ final class SearchService : ProductService{
                 print("fetchDescription",error.localizedDescription)
                 break
             }
+        }
+    }
+    
+    func fetchLiked(callback : @escaping (Multiget)->Void) -> Void{
+        
+        if let likes = defaults.stringArray(forKey: "LikedProducts"){
+            self.fetchProductsDetail(search: likes) { multiget in
+                if multiget.isEmpty {
+                    callback([])
+                    return
+                }
+                callback(multiget)
+            }
+        }
+        else {
+            callback([])
         }
     }
     

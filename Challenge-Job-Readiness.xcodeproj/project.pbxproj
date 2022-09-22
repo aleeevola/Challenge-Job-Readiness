@@ -18,6 +18,8 @@
 		1F376FE028DB768E00183145 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F376FDF28DB768E00183145 /* ProductDetail.swift */; };
 		1F376FE228DBAC8400183145 /* SearchViewPesenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F376FE128DBAC8400183145 /* SearchViewPesenter.swift */; };
 		1F376FE828DC835700183145 /* ProductCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F376FE728DC835700183145 /* ProductCardView.swift */; };
+		1F376FEB28DCB5D400183145 /* LikedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F376FEA28DCB5D400183145 /* LikedTableViewController.swift */; };
+		1F376FEE28DCB89F00183145 /* LikedViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F376FED28DCB89F00183145 /* LikedViewPresenter.swift */; };
 		1F8A35D128D4A94700D4B488 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A35D028D4A94700D4B488 /* Product.swift */; };
 		1F8A35D528D4C01D00D4B488 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A35D428D4C01D00D4B488 /* ProductTableViewCell.swift */; };
 		1FAE14D628CF9B340046933F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAE14D528CF9B340046933F /* AppDelegate.swift */; };
@@ -70,6 +72,8 @@
 		1F376FDF28DB768E00183145 /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
 		1F376FE128DBAC8400183145 /* SearchViewPesenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewPesenter.swift; sourceTree = "<group>"; };
 		1F376FE728DC835700183145 /* ProductCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardView.swift; sourceTree = "<group>"; };
+		1F376FEA28DCB5D400183145 /* LikedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedTableViewController.swift; sourceTree = "<group>"; };
+		1F376FED28DCB89F00183145 /* LikedViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedViewPresenter.swift; sourceTree = "<group>"; };
 		1F8A35D028D4A94700D4B488 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		1F8A35D428D4C01D00D4B488 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
 		1FAE14D228CF9B340046933F /* Challenge-Job-Readiness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Challenge-Job-Readiness.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,6 +190,23 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		1F376FE928DCB55600183145 /* LikedTable */ = {
+			isa = PBXGroup;
+			children = (
+				1F376FEC28DCB87F00183145 /* Presenter */,
+				1F376FEA28DCB5D400183145 /* LikedTableViewController.swift */,
+			);
+			path = LikedTable;
+			sourceTree = "<group>";
+		};
+		1F376FEC28DCB87F00183145 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				1F376FED28DCB89F00183145 /* LikedViewPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		1FAE14C928CF9B340046933F = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +276,7 @@
 		1FC6179728CFA5580068A0AD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				1F376FE928DCB55600183145 /* LikedTable */,
 				1F376FD228DB34D200183145 /* ProductDetail */,
 				1F376FD128DB34B700183145 /* ProductTable */,
 			);
@@ -552,6 +574,7 @@
 			files = (
 				1F376FD928DB551100183145 /* ProductDetailView.swift in Sources */,
 				1FBB246128D1171F008AEA1D /* category.swift in Sources */,
+				1F376FEE28DCB89F00183145 /* LikedViewPresenter.swift in Sources */,
 				1F8A35D128D4A94700D4B488 /* Product.swift in Sources */,
 				1F376FDC28DB741800183145 /* ProductDetailViewPresenter.swift in Sources */,
 				1F8A35D528D4C01D00D4B488 /* ProductTableViewCell.swift in Sources */,
@@ -559,6 +582,7 @@
 				1F376FDE28DB765C00183145 /* descriptionDto.swift in Sources */,
 				1FAE14DA28CF9B340046933F /* ViewController.swift in Sources */,
 				1F376FCB28DA119A00183145 /* UIImageViewExtension.swift in Sources */,
+				1F376FEB28DCB5D400183145 /* LikedTableViewController.swift in Sources */,
 				1F376FE228DBAC8400183145 /* SearchViewPesenter.swift in Sources */,
 				1FAE14D628CF9B340046933F /* AppDelegate.swift in Sources */,
 				1F376FE828DC835700183145 /* ProductCardView.swift in Sources */,

@@ -36,6 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         appearance.compactAppearance = navBarAppearance
         appearance.scrollEdgeAppearance = navBarAppearance
         appearance.barTintColor = .white
+        appearance.tintColor = .black
         
         if #available(iOS 15.0, *) {
           appearance.compactScrollEdgeAppearance = navBarAppearance

@@ -1,22 +1,21 @@
 //
-//  InitialViewController.swift
+//  LikedTableViewController.swift
 //  Challenge-Job-Readiness
 //
-//  Created by Alejandro Bruno Vola on 12/09/2022.
+//  Created by Alejandro Bruno Vola on 22/09/2022.
 //
 
 import UIKit
 
-
-protocol SearchViewDelegate: AnyObject {
+protocol LikedViewDelegate: AnyObject {
     func setProducts(_ products: [Product])
     func showError(_ errorMessage : String)
 }
 
 
-class SearchViewController: UIViewController {
+class LikedTableViewController: UIViewController {
     
-    private let presenter: SearchPesenter
+    private let presenter: LikedPesenter
     
     private var items : [Product] = [] {
         didSet {
@@ -25,16 +24,6 @@ class SearchViewController: UIViewController {
     }
     
     // MARK: - Components
-    lazy var totalResultLabel: UILabel = {
-        let aLabel = UILabel()
-        aLabel.translatesAutoresizingMaskIntoConstraints = false
-        aLabel.text = "\(items.count) resultados"
-        aLabel.font = UIFont.systemFont(ofSize: 14)
-        aLabel.textColor = .grey4
-        aLabel.textAlignment = .left
-        return aLabel
-    }()
-    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -42,16 +31,9 @@ class SearchViewController: UIViewController {
         return tableView
     }()
     
-    lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.delegate = self
-        searchBar.placeholder = "Buscar en Mercado Libre"
-        return searchBar
-    }()
     
     // MARK: - Init Controller
-    
-    init(presenter : SearchPesenter){
+    init(presenter : LikedPesenter){
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -65,6 +47,7 @@ class SearchViewController: UIViewController {
         
         setupView()
         setupConstraints()
+        presenter.searchLikeds()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,19 +65,20 @@ class SearchViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ProductsCell")
         tableView.register(ProductTableViewCell.self, forCellReuseIdentifier: "ProductTableViewCell")
         
-        view.addSubview(tableView)
+        navigationItem.title = "Favoritos"
         
-        navigationItem.titleView = searchBar
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "cart-icon"), style: .done, target: self, action: #selector(onCartBeenPressed))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu-icon"),  style: .done, target: self, action: #selector(onCartBeenPressed))
-        navigationItem.rightBarButtonItem?.tintColor = .black
-        navigationItem.leftBarButtonItem?.tintColor = .black
-
+        let sizeConfig = UIImage.SymbolConfiguration(pointSize: 12.61, weight: .bold, scale: .large)
+        
+        view.addSubview(tableView)
+    }
+    
+    @objc private func onCartBeenPressed() {
+        print("Card has been pressed!")
     }
     
     private func setupConstraints(){
         NSLayoutConstraint.activate([
-
+            
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor,constant: 16),
@@ -102,18 +86,9 @@ class SearchViewController: UIViewController {
         ])
     }
     
-    @objc private func onCartBeenPressed() {
-        let service = SearchService.shared
-        let presenter = LikedViewPesenter(service: service)
-        let controller = LikedTableViewController(presenter: presenter)
-        presenter.delegate = controller
-        
-        navigationController?.pushViewController(controller, animated: true)
-    }
-    
 }
 // MARK: - Extension SearchViewController
-extension SearchViewController : SearchViewDelegate {
+extension LikedTableViewController : LikedViewDelegate {
     
     func setProducts(_ products: [Product]) {
         self.items = products
@@ -128,7 +103,7 @@ extension SearchViewController : SearchViewDelegate {
 }
 
 // MARK: - Extension TableView
-extension SearchViewController: UITableViewDataSource, UITableViewDelegate  {
+extension LikedTableViewController: UITableViewDataSource, UITableViewDelegate  {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         items.count
@@ -152,15 +127,5 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate  {
         presenter.delegate = controller
         
         navigationController?.pushViewController(controller, animated: true)
-    }
-}
-
-// MARK: - Extension UISearchBar
-extension SearchViewController: UISearchBarDelegate {
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if searchBar.text!.isEmpty == false {
-            self.presenter.searchProducts(searchBar.text!)
-        }
     }
 }
