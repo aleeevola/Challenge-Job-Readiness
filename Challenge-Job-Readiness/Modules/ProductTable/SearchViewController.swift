@@ -82,7 +82,6 @@ class SearchViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ProductsCell")
         tableView.register(ProductTableViewCell.self, forCellReuseIdentifier: "ProductTableViewCell")
         
-        //view.addSubview(totalResultLabel)
         view.addSubview(tableView)
         
         navigationItem.titleView = searchBar
@@ -99,11 +98,7 @@ class SearchViewController: UIViewController {
     
     private func setupConstraints(){
         NSLayoutConstraint.activate([
-//            totalResultLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
-//            totalResultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-//            totalResultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-//            totalResultLabel.heightAnchor.constraint(equalToConstant: 50),
-            
+
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor,constant: 16),

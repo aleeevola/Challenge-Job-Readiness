@@ -43,6 +43,10 @@ final class SearchService : ProductService{
                 }
                 else{
                     self.fetchProductsDetail(search: productsIds) { multiget in
+                        if multiget.isEmpty {
+                            callback([])
+                            return
+                        }
                         callback(multiget)
                     }
                 }

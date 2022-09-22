@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CustomNavigationBar : UIView {
+class CustomNavigationBarView : UIView {
     
     // MARK: Components
     

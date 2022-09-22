@@ -11,6 +11,7 @@ extension String {
     func currencyFormatting() -> String {
         if let value = Double(self) {
             let formatter = NumberFormatter()
+            formatter.locale = Locale(identifier: "es_AR" )
             formatter.numberStyle = .currency
             formatter.maximumFractionDigits = 2
             formatter.minimumFractionDigits = 2

@@ -22,8 +22,8 @@ class ProductDetailViewController: UIViewController {
         }
     }
     
-    lazy var customNavigationBar: CustomNavigationBar = {
-        let view = CustomNavigationBar()
+    lazy var customNavigationBar: CustomNavigationBarView = {
+        let view = CustomNavigationBarView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backButton.addTarget(self, action: #selector(onBackBeenPress), for: .touchDown)
         view.likeButton.addTarget(self, action: #selector(onLikeBeenPress), for: .touchDown)
