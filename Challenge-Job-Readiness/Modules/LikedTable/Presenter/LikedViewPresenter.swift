@@ -8,8 +8,8 @@
 import Foundation
 
 protocol LikedPesenter {
-    func searchLikeds() -> Void
-    func likedTapped(_ productId : String)
+  func searchLikeds() -> Void
+  func likedTapped(_ productId : String)
 }
 
 class LikedViewPesenter: LikedPesenter {
@@ -27,18 +27,20 @@ class LikedViewPesenter: LikedPesenter {
   
   // MARK: - Internal Functions
   
-    func searchLikeds() -> Void {
-        self.service.fetchLiked() { result in
-            if result.isEmpty {
-                self.delegate?.showError("No se encontraro productos")
-            }
-            else{
-                self.delegate?.setProducts(result.map{$0.productModel})
-            }
-        }
+  func searchLikeds() -> Void {
+    self.service.fetchLiked() { [weak self] result in
+      guard let self = self else { return }
+      guard !result.isEmpty else { return self.notifyError("No se encontraron productos") }
+      
+      self.delegate?.setProducts(result.map{$0.productModel})
     }
-    
-    func likedTapped(_ productId : String){
-        self.service.likeProduct(productId)
-    }
+  }
+  
+  func likedTapped(_ productId : String){
+    self.service.likeProduct(productId)
+  }
+  
+  private func notifyError(_ message: String) {
+    self.delegate?.showError(message)
+  }
 }

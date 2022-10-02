@@ -7,6 +7,7 @@
 
 import Foundation
 
+#warning("File should be Category")
 // MARK: - Welcome
 struct Category: Codable {
     let queryData: QueryData

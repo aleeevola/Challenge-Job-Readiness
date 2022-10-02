@@ -7,6 +7,8 @@
 
 import Foundation
 
+#warning("Class should start with upper letter, AuthToken")
+#warning("Also, we are not using this class")
 struct oauthToken: Codable {
     let accessToken, tokenType: String
     let expiresIn: Int

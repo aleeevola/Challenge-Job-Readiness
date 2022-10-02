@@ -97,6 +97,7 @@ class CustomNavigationBarView : UIView {
         self.addSubview(likeButton)
     }
     
+  #warning("Magic numbers.")
     private func setupConstraints(){
         NSLayoutConstraint.activate([
             self.heightAnchor.constraint(equalToConstant: 82),

@@ -10,7 +10,7 @@ import Foundation
 final class RestClient{
     static let shared = RestClient()
     
-    private init(){}
+    private init() {}
     
     let BASE_URL = "https://api.mercadolibre.com/"
     private let ACCESS_TOKEN = "APP_USR-2823795960356823-092212-5d36320466118512bdc1698b510a8993-204640350"
@@ -20,7 +20,7 @@ final class RestClient{
         
         let url = self.BASE_URL + request
         
-        let headers = HTTPHeaders(["Authorization" : "Bearer \(self.ACCESS_TOKEN)"])
+        let headers = HTTPHeaders(["Authorization": "Bearer \(self.ACCESS_TOKEN)"])
         
         let request = AF.request(url, method: method, parameters: parameters, headers: headers).validate(statusCode: 200...300)
 
@@ -28,6 +28,7 @@ final class RestClient{
             switch response.result {
             case .success(let data):
                 do {
+                  #warning("What happen if we don't have data here?")
                     if let data = data {
                         //print(data.toJSON)
                         let result = try JSONDecoder().decode(Model.self, from: data)

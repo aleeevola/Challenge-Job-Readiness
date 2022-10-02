@@ -8,8 +8,8 @@
 import Foundation
 
 protocol SearchPesenter {
-    func searchProducts(_ search: String) -> Void
-    func likedTapped(_ productId : String)
+  func searchProducts(_ search: String) -> Void
+  func likedTapped(_ productId : String)
 }
 
 class SearchViewPesenter: SearchPesenter {
@@ -27,29 +27,33 @@ class SearchViewPesenter: SearchPesenter {
   
   // MARK: - Internal Functions
   
-    func searchProducts(_ search: String) -> Void {
-        self.service.fetchProducts(search: search) { result in
-            if result.isEmpty {
-                self.delegate?.showError("No se encontraro productos")
-            }
-            else{
-                self.delegate?.setProducts(result.map{$0.productModel})
-            }
-        }
+  func searchProducts(_ search: String) -> Void {
+    self.service.fetchProducts(search: search) { [weak self] result in
+      guard let self = self else { return }
+      guard !result.isEmpty else { return self.showError("No se encontraron productos") }
+      
+      self.delegate?.setProducts(result.map{ $0.productModel })
     }
-    
-    func likedTapped(_ productId : String){
-        self.service.likeProduct(productId)
-    }
+  }
+  
+  private func showError(_ message: String) {
+    self.delegate?.showError(message)
+  }
+  
+  func likedTapped(_ productId: String) {
+    self.service.likeProduct(productId)
+  }
 }
 
 extension MultigetElement {
-    var productModel : Product { Product(
-        id: body.id,
-        name: body.title,
-        price: Double(body.price),
-        location: "CABA",
-        imageUrl: body.secureThumbnail,
-        isLiked: false)
-    }
+  var productModel : Product {
+    Product(
+      id: body.id,
+      name: body.title,
+      price: Double(body.price),
+      location: "CABA",
+      imageUrl: body.secureThumbnail,
+      isLiked: false
+    )
+  }
 }

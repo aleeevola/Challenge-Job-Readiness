@@ -14,7 +14,7 @@ class ProductTableViewCell: UITableViewCell {
     
     private var id : String = ""
     
-    var product : Product? {
+    private (set) var product : Product? {
         didSet{
             productCardView.product = product
         }

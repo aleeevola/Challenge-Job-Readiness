@@ -12,12 +12,11 @@ protocol LikedViewDelegate: AnyObject {
     func showError(_ errorMessage : String)
 }
 
-
 class LikedTableViewController: UIViewController {
     
     private let presenter: LikedPesenter
     
-    private var items : [Product] = [] {
+    private var items = [Product]() {
         didSet {
             tableView.reloadData()
         }
@@ -33,8 +32,9 @@ class LikedTableViewController: UIViewController {
     
     
     // MARK: - Init Controller
-    init(presenter : LikedPesenter){
+    init(presenter : LikedPesenter) {
         self.presenter = presenter
+      
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -52,9 +52,9 @@ class LikedTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+      
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-    
     
     // MARK: - Private Methods
     
@@ -78,11 +78,10 @@ class LikedTableViewController: UIViewController {
     
     private func setupConstraints(){
         NSLayoutConstraint.activate([
-            
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor,constant: 16),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     

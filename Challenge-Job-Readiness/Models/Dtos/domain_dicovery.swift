@@ -7,6 +7,7 @@
 
 import Foundation
 
+#warning("Typo in file and wrong format, is DomainDiscovery")
 struct DomainDiscoveryElement: Codable {
     let domainID, domainName, categoryID, categoryName: String
     let attributes: [Attribute]

@@ -7,6 +7,8 @@
 
 import Foundation
 
+#warning("ProductDetail, we don't use snake case.")
+#warning("we need to define if we are going to allow mutation trough attributes or functions, but both is not a good option")
 struct Product_detail: Codable {
     let id: String
     let name: String
